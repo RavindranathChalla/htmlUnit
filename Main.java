@@ -1,4 +1,4 @@
-package com.github.emalock3.htmlunit;
+package com.github.emalock3.htmlunit_example;
 
 import com.gargoylesoftware.htmlunit.BrowserVersion;
 import com.gargoylesoftware.htmlunit.NicelyResynchronizingAjaxController;
@@ -22,7 +22,7 @@ public class Main {
         //engine.holdPosponedActions();
         webClient.setCssErrorHandler(new SilentCssErrorHandler());
         webClient.setAjaxController(new NicelyResynchronizingAjaxController());
-        webClient.getOptions().setUseInsecureSSL(true);
+       // webClient.getOptions().setUseInsecureSSL(true);
         webClient.getOptions().setCssEnabled(true);
         webClient.getOptions().setRedirectEnabled(false);
         webClient.getOptions().setAppletEnabled(false);
@@ -31,6 +31,7 @@ public class Main {
         webClient.getOptions().setTimeout(10000);
         webClient.getOptions().setThrowExceptionOnScriptError(false);
         webClient.getOptions().setThrowExceptionOnFailingStatusCode(false);
+
         HtmlPage page = webClient.getPage("http://htmlunit.sourceforge.net");
         Iterable<DomElement> childEle;
         List<DomElement> divs = page.getElementsByTagName("div");
@@ -41,26 +42,25 @@ public class Main {
                 System.out.println(ce);
                   Iterable<DomElement> de=ce.getChildElements();
                   for(DomElement d:de){
-                             if(d.getByXPath("//a").contains("Project Page")){
-                  System.out.println(d.toString());
-                  System.out.println( d.getByXPath("//a"));
-                             }
+                 // System.out.println(d.toString());
+                  System.out.println( d.getByXPath("//a").get(0));                  
+                  break;
                       }
              }
              }
          }
-
-        //HtmlPage page = webClient.getPage("https://wuapp-prodrs.westernunion.net/RMP/jsp/update1.jsp");
-        HtmlPage page = webClient.getPage("https://www.google.com/");
+        
+        //HtmlPage page = webClient.getPage("https://www.google.com/");
         //System.out.println(page.asXml());
        // final HtmlForm form = page.getFormByName("frm");
-        final HtmlAnchor button = (HtmlAnchor) page.getElementById("gb_70");
+        //final HtmlAnchor button = (HtmlAnchor) page.getElementById("gb_70");
         //final HtmlSubmitInput button = form.getInputByName("Commit");
         //final HtmlTextInput textField = form.getInputByName("sqlstring");
 
-        System.out.println("Title-->"+page.getTitleText());
+        //System.out.println("Title-->"+page.getTitleText());
         
-		System.out.println("button--"+button.asText());
+		//System.out.println("button--"+button);
+		//System.out.println("button Value--"+button.getTextContent());
 		
         // Change the value of the text field
         //textField.type("root");
@@ -68,11 +68,12 @@ public class Main {
        // System.out.println("textField--"+textField);
 
         // Now submit the form by clicking the button and get back the second page.
-        final HtmlPage page2 = button.click();
+        /*final HtmlPage page2 = button.click();
         final HtmlTextInput textField = page2.getElementByName("identifier");
         textField.type("ravinathchalla@gmail.com");
-        System.out.println("textField--"+textField.getValueAttribute());
-       
+        System.out.println("textField--"+textField);
+        System.out.println("textField Value--->"+textField.getText());
+       */
         webClient.closeAllWindows();
     }
 }
