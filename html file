@@ -8,5 +8,5 @@
 
 
 
-ScriptResult result = page.executeJavaScript("document.getElementByName('Download').onclick()");
+ScriptResult result = page.executeJavaScript("document.getElementById('254').onclick()");
         final Page newPage = result.getNewPage();
