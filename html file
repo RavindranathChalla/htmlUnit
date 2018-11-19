@@ -10,3 +10,6 @@
 
 ScriptResult result = page.executeJavaScript("document.getElementById('254').onclick()");
         final Page newPage = result.getNewPage();
+        
+        HtmlElement theElement5 = (HtmlElement) page.getElementById("294");
+page = (HtmlPage) theElement5.click();
