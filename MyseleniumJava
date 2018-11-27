@@ -1,0 +1,170 @@
+/**
+ * 
+ */
+package com.citi.auto.comp;
+
+import java.io.File;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+
+import org.openqa.selenium.By;
+import org.openqa.selenium.JavascriptExecutor;
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
+import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.chrome.ChromeOptions;
+import org.openqa.selenium.interactions.Actions;
+import org.openqa.selenium.remote.DesiredCapabilities;
+import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.support.ui.WebDriverWait;
+
+/**
+ * @author mn87745
+ *
+ */
+public class AutoComp_Selenium {
+
+	/**
+	 * @param args
+	 */
+	public static void main(String[] args) {
+		// TODO Auto-generated method stub
+
+		File file = new File("C:/Users/mn87745/Downloads/chromedriver.exe");
+		//System.out.println("File: " + file.toString());
+		System.setProperty("webdriver.chrome.driver", file.getAbsolutePath());
+
+		//DesiredCapabilities desiredCapabilities = DesiredCapabilities.chrome();
+		ChromeOptions chromeOptions = new ChromeOptions();
+		chromeOptions.addArguments("--disable-infobars");
+		chromeOptions.addArguments("--start-maximized");
+		chromeOptions.addArguments("--headless");
+		chromeOptions.addArguments("--disable-extensions"); // disabling extensions
+		chromeOptions.addArguments("--disable-gpu"); // applicable to windows os only
+		chromeOptions.addArguments("--disable-dev-shm-usage"); // overcome limited resource problems
+		chromeOptions.addArguments("--no-sandbox"); // Bypass OS security model
+		WebDriver driver = new ChromeDriver(chromeOptions);
+		//desiredCapabilities.setCapability(ChromeOptions.CAPABILITY, chromeOptions);
+		//WebDriver driver = new ChromeDriver(desiredCapabilities);
+		WebDriverWait wait = new WebDriverWait(driver,30);
+		WebElement webElement;
+		
+
+		String baseUrl = "http://sd-560e-f2bb.nam.nsroot.net:42008/ecmctui/?ssoId=nj04730";
+		//String baseUrl = "https://qa.citivelocity.com/cv2/go/contentmodelui";
+		String expectedTitle = "Composition Public";
+		String actualTitle = "";
+		
+
+		// launch Fire fox and direct it to the Base URL
+		driver.get(baseUrl);
+		//System.out.println("HTML source : " + driver.getPageSource());
+		/*driver.manage().timeouts().implicitlyWait(30,TimeUnit.SECONDS); 
+		driver.quit();*/
+		
+		webElement = wait.until(ExpectedConditions.visibilityOfElementLocated(By.id("294")));       
+		String citimedia = webElement.getText();
+		System.out.println("1st Page Title: " + driver.getTitle());
+		System.out.println("Under Standard Templates section, Citi Media Link : " + citimedia);
+		
+		JavascriptExecutor executor = (JavascriptExecutor) driver;
+		executor.executeScript("arguments[0].click();", webElement);
+		//System.out.println("JavascriptExecutor : " + executor.toString());
+		//driver.quit();
+		
+		System.out.println("Navigation to 2nd Page Title: " + driver.getTitle());
+		//String instWarning  = driver.findElement(By.className("institutional-warning")).getText();
+		WebElement instWarning = driver.findElement(By.xpath("//*[@id=\"root\"]/div/div/header/div/div[5]/div[5]/div/div[1]/div/div/div/div[1]/div[2]"));
+		System.out.println("2nd Page top warninig Title: " + instWarning.getAttribute("innerHTML"));
+		
+		WebElement subject = driver.findElement(By.xpath("//*[@id=\"root\"]/div/div/header/div/div[5]/div[5]/div/div[1]/div/div/div/div[1]/div[3]/div/input"));
+		System.out.println("Subject Textbox Original text: " + subject.getAttribute("value"));
+		subject.clear();
+		subject.sendKeys("Automate 1 , " + getSystemCurrentDatetimeinMilliseconds());
+		System.out.println("Subject Textbox Updated text: " + subject.getAttribute("value"));
+		
+		//First get access to IFrame
+		driver.switchTo().frame(driver.findElement(By.tagName("iframe")));
+		
+		WebElement tradingTxt =  driver.findElement(By.xpath("/html/body/h1[1]"));
+		System.out.println("TRADING COMMENTARY Textbo text: " + tradingTxt.getAttribute("innerHTML"));
+		Actions actions = new Actions(driver);
+		actions.moveToElement(tradingTxt);
+		actions.click();
+		actions.sendKeys("XYZ ABC gkfkhfd                   hhhfhfhdhd                          bcvvkkbkbdfbd");  
+		actions.build().perform();
+		System.out.println("TRADING COMMENTARY Textbox Updated text: " + tradingTxt.getAttribute("innerHTML"));
+		driver.switchTo().defaultContent();
+		
+		//Click below to "Edit Signatures" link  //*[@id="root"]/div/div/header/div/div[5]/div[5]/div/div[1]/div/div/div/div[1]/div[6]/div[2]/span[2]/span
+		//WebElement editSignature =  wait.until(ExpectedConditions.visibilityOfElementLocated(By.id("//*[@id=\\\"root\\\"]/div/div/header/div/div[5]/div[5]/div/div[1]/div/div/div/div[1]/div[6]/div[2]/span[2]/span")));
+		WebElement editSignature = driver.findElement(By.xpath("//*[@id=\"root\"]/div/div/header/div/div[5]/div[5]/div/div[1]/div/div/div/div[1]/div[6]/div[2]/span[2]/span"));
+		System.out.println("Edit Signature : " + editSignature.getAttribute("innerHTML"));
+		editSignature.click();
+		
+		//Choose Legal entity drop down option     //*[@id="signature-edit-section"]/div[1]/div[3]/div[1]/div/div/button                
+		WebElement legalEntity = wait.until(ExpectedConditions.presenceOfElementLocated(By.xpath("//*[@id=\"signature-edit-section\"]/div[1]/div[3]/div[1]/div/div/div/button[1]")));
+		//WebElement legalEntity = driver.findElement(By.xpath("//*[@id=\"signature-edit-section\"]/div[1]/div[3]/div[1]/div/div/div/button[1]"));
+		System.out.println("legal Entity : " + legalEntity.getAttribute("value"));
+		legalEntity.click();
+		
+		//CLick on Suggest disclaimer Link
+		WebElement suggestDisclaimer = driver.findElement(By.xpath("//*[@id=\"root\"]/div/div/header/div/div[5]/div[5]/div/div[1]/div/div/div/div[1]/div[6]/div[3]/div[2]/div[1]/div[1]/span/span"));
+		System.out.println("Suggest disclaimer : " + editSignature.getAttribute("innerHTML"));
+		suggestDisclaimer.click();
+		
+		//Click on "Update "button
+		WebElement update = driver.findElement(By.xpath("WebElement suggestDisclaimer = driver.findElement(By.xpath(\"//*[@id=\\\"root\\\"]/div/div/header/div/div[5]/div[5]/div/div[1]/div/div/div/div[1]/div[6]/div[3]/div[2]/div[1]/div[1]/span/span\"));"));
+		System.out.println("Update Button : " + update.getAttribute("innerHTML"));
+		update.click();
+		
+		//Go to "Generate Summary" button 
+		WebElement generateSumary = driver.findElement(By.xpath("//*[@id=\"root\"]/div/div/header/div/div[5]/div[5]/div/div[1]/div/div/div/div[2]/div/span"));
+		System.out.println("Generate Summary Button : " + generateSumary.getAttribute("innerHTML"));
+		generateSumary.click();
+			
+		// Click on Distribution button
+		WebElement distribution = driver.findElement(By.xpath("//*[@id=\"root\"]/div/div/header/div/div[5]/div[5]/div/div[2]/div[3]/div[2]/button"));
+		System.out.println("Distribution Button : " + distribution.getAttribute("value"));
+		distribution.click();
+		
+		// Click on Checkbox of Email                  
+		WebElement email = driver.findElement(By.xpath("//*[@id=\"root\"]/div/div/header/div/div[5]/div[5]/div/div[2]/div[3]/div/form/div[1]/div/div[4]/div[1]/div/div/span[2]/svg"));
+		System.out.println("Email check mark : " + email.getAttribute("innerHTML"));
+		email.click();
+		
+		// Go to "CRM GROUPS" and choose  : CRM_ECM_NIKHIL_I_E
+		WebElement crm_grops = driver.findElement(By.xpath("//*[@id=\"rbt-menu-item-1\"]/a/span/span"));
+		System.out.println("CRM GROUPS option : " + crm_grops.getAttribute("innerHTML"));
+		crm_grops.click();
+		
+		//Click on below Send button
+		WebElement send = driver.findElement(By.xpath("//*[@id=\"root\"]/div/div/header/div/div[5]/div[5]/div/div[2]/div[3]/div/form/div[2]/button[3]"));
+		System.out.println("Send Button : " + send.getAttribute("value"));
+		send.click();
+				
+		// get the actual value of the title
+		actualTitle = driver.getTitle();
+
+		/*
+		 * compare the actual title of the page with the expected one and print the
+		 * result as "Passed" or "Failed"
+		 */
+		if (actualTitle.contentEquals(expectedTitle)) {
+			System.out.println("Test Passed!");
+		} else {
+			System.out.println("Test Failed");
+		}
+	
+		driver.close();
+
+	}
+	
+	//To get Current System Date/Time in Milliseconds
+	public static String getSystemCurrentDatetimeinMilliseconds() {
+	    return LocalDateTime.now()
+	       .format(DateTimeFormatter.ofPattern("MMM dd, yyyy HH:mm:ss.SSS"));
+	}
+	
+
+}
