@@ -34,7 +34,7 @@ public class AutoComp_Selenium {
 		String drivrPath = ""C:/Users/mn87745/Downloads/";
 		//System.out.println("File: " + file.toString());
 		//System.setProperty("webdriver.chrome.driver", file.getAbsolutePath());
-		System.setProperty("webdriver.chrome.driver", driverPath+chromedriver.exe);
+		System.setProperty("webdriver.chrome.driver", driverPath+"chromedriver.exe");
 
 		//DesiredCapabilities desiredCapabilities = DesiredCapabilities.chrome();
 		ChromeOptions chromeOptions = new ChromeOptions();
@@ -46,6 +46,7 @@ public class AutoComp_Selenium {
 		chromeOptions.addArguments("--disable-dev-shm-usage"); // overcome limited resource problems
 		chromeOptions.addArguments("--no-sandbox"); // Bypass OS security model
 		WebDriver driver = new ChromeDriver(chromeOptions);
+		WebDriver driver = new ChromeDriver();			
 		//desiredCapabilities.setCapability(ChromeOptions.CAPABILITY, chromeOptions);
 		//WebDriver driver = new ChromeDriver(desiredCapabilities);
 		WebDriverWait wait = new WebDriverWait(driver,30);
@@ -59,12 +60,13 @@ public class AutoComp_Selenium {
 		
 
 		// launch Fire fox and direct it to the Base URL
-		driver.get(baseUrl);
+		//driver.get(baseUrl);
+		driver.navigate().to(baseUrl);
 		//System.out.println("HTML source : " + driver.getPageSource());
 		/*driver.manage().timeouts().implicitlyWait(30,TimeUnit.SECONDS); 
 		driver.quit();*/
-		
-		webElement = wait.until(ExpectedConditions.visibilityOfElementLocated(By.id("294")));       
+		webElement wait.until(ExpectedConditions.presenceOfAllElementsLocatedBy(By.id("294")));	
+		//webElement = wait.until(ExpectedConditions.visibilityOfElementLocated(By.id("294")));       
 		String citimedia = webElement.getText();
 		System.out.println("1st Page Title: " + driver.getTitle());
 		System.out.println("Under Standard Templates section, Citi Media Link : " + citimedia);
