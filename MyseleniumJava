@@ -30,9 +30,11 @@ public class AutoComp_Selenium {
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
 
-		File file = new File("C:/Users/mn87745/Downloads/chromedriver.exe");
+		//File file = new File("C:/Users/mn87745/Downloads/chromedriver.exe");
+		String drivrPath = ""C:/Users/mn87745/Downloads/";
 		//System.out.println("File: " + file.toString());
-		System.setProperty("webdriver.chrome.driver", file.getAbsolutePath());
+		//System.setProperty("webdriver.chrome.driver", file.getAbsolutePath());
+		System.setProperty("webdriver.chrome.driver", driverPath+chromedriver.exe);
 
 		//DesiredCapabilities desiredCapabilities = DesiredCapabilities.chrome();
 		ChromeOptions chromeOptions = new ChromeOptions();
