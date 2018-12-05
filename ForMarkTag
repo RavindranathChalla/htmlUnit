@@ -1,0 +1,36 @@
+
+
+<span><mark class="rbt-highlight-text">CRM</mark><span>_ECM_NIKHIL_I_E</span></span>
+
+
+Try below code to try to work on mark tag
+==========================================
+// the element containing the text
+WebElement element = driver.findElement(By.id("text"));
+// assuming driver is a well behaving WebDriver
+Actions actions = new Actions(driver);
+// and some variation of this:
+actions.moveToElement(element, 10, 5)
+    .clickAndHold()
+    .moveByOffset(30, 0)
+    .release()
+    .perform();
+
+
+
+
+For adding new H1 using javascript : 
+==================================
+script = "theParent = document.getElementByTagName('body');
+theKid = document.createElement('div');
+theKid.innerHTML = 'Hello There!';
+
+// append theKid to the end of theParent
+theParent.appendChild(theKid);
+
+// prepend theKid to the beginning of theParent
+theParent.insertBefore(theKid, theParent.firstChild);"
+
+driver.executeScript('return ' + script).then(function(return_value) { 
+    console.log('returned ', return_value);
+});    
