@@ -61,5 +61,15 @@ public class SeleniumTest {
       System.out.println("Timeout waiting for Page Load Request to complete.");
     }
   }
+  
+  
+  WebElement dropDown = driver.findElement( By.xpath( ".//dropdown/path" ) );
+    dropDown.click();
+    List<WebElement> allOptions = dropDown.findElements(By.xpath(".//option"));
+    for ( WebElement we: allOptions) { 
+        dropDown.sendKeys( Keys.DOWN ); //simulate visual movement
+        sleep(250);       
+        if ( we.getText().contains( text ) ) select.selectByVisibleText("Value1");
+    }
 
 }
