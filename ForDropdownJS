@@ -1,0 +1,13 @@
+
+
+JavascriptExecutor executor = (JavascriptExecutor)driver;
+     String dropdownScript = "var select = window.document.getElementById('" + 
+             dropDown +
+             "'); for(var i = 0; i < select.options.length; i++){if(select.options[i].text == '" +
+             elementID +
+             "'){ select.options[i].selected = true; } }";
+Thread.sleep(2000);
+     executor.executeScript(dropdownScript);
+     Thread.sleep(2000);
+String clickScript = "if ("+"\"createEvent\""+" in document) {var evt = document.createEvent("+"\"HTMLEvents\""+");     evt.initEvent("+"\"change\""+", false, true); " + dropDown + ".dispatchEvent(evt); } else " + dropDown + ".fireEvent("+"\"onchange\""+");";
+executor.executeScript(clickScript);
